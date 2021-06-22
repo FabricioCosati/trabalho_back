@@ -3,17 +3,17 @@ const Responsible = require('../models/Responsible')
 const { iso, date } = require('../lib/utils')
 
 module.exports = {
-    async get(req, res) {
+    /* async filtering(req, res) {
 
         Register.get(function (register) {
             const d1 = new Date(iso(Date.now()))
             const d2 = new Date(register[0].date)
             const diff = d1 - d2
-            /* console.log(date(diff).day) */
+            console.log(date(diff).day)
 
             return res.send(register)
         })
-    },
+    }, */
 
     async post(req, res) {
 
@@ -108,7 +108,7 @@ module.exports = {
         }
     },
 
-    async filtering(req, res) {
+    async get(req, res) {
 
         try {
 

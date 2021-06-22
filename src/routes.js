@@ -16,7 +16,6 @@ routes.delete('/persons/:id', PersonController.delete)
 routes.post('/login', LoginController.login)
 
 routes.get('/registers', RegisterController.get)
-routes.get('/registers/count', RegisterController.filtering)
 routes.get('/registers/:id', RegisterController.getOne)
 routes.post('/registers', RegisterController.post)
 routes.put('/registers/:id', RegisterController.put)

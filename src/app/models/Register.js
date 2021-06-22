@@ -140,6 +140,10 @@ module.exports = {
                 totalQuery = `(SELECT count(*) FROM register ${filterTotal}) AS total_register`
             }
 
+            if(!totalQuery){
+                totalQuery = `(SELECT count(*) FROM register) AS total_register`
+            }
+
             query = `
                     SELECT register.*, person.*,
                     ${totalQuery}
@@ -149,6 +153,7 @@ module.exports = {
                     ${filterTotal}
                 `
 
+                console.log(query)
             return new Promise(function (resolve, reject) {
 
                 con.query(query, (err, rows) => {
