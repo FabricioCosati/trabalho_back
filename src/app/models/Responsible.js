@@ -6,7 +6,7 @@ module.exports = {
         try {
 
             var results
-            await con.query("SELECT * FROM person", (err, rows) => {
+            await con.query("SELECT * FROM responsible", (err, rows) => {
                 if(err) throw err
 
                 callback(results = rows)
@@ -31,16 +31,11 @@ module.exports = {
                 values.push(`'${filters[key]}'`)
             })
 
-            const query = `INSERT INTO person (${keys.join(",")}) VALUES (${values.join(",")})`
+            const query = `INSERT INTO responsible (${keys.join(",")}) VALUES (${values.join(",")})`
 
-            return new Promise(function(resolve, reject){
+            await con.query(query, (err, rows) => {
+                if(err) throw err
 
-                con.query(query, (err, rows) => {
-                    if(err) throw err
-                    
-                    resolve(rows.insertId)
-                    
-                })
             })
             
         } catch (error) {
@@ -59,7 +54,7 @@ module.exports = {
                 update.push(row)
             })
 
-            const query = `UPDATE person SET ${update.join(",")} WHERE id = ${id}`
+            const query = `UPDATE responsible SET ${update.join(",")} WHERE id = ${id}`
 
             await con.query(query, (err, rows) => {
                 if(err) throw err
@@ -76,7 +71,7 @@ module.exports = {
 
         try {
 
-            await con.query(`DELETE FROM person WHERE id = ${id}`, (err, rows) => {
+            await con.query(`DELETE FROM responsible WHERE id = ${id}`, (err, rows) => {
                 if(err) throw err
 
                 return rows
@@ -90,7 +85,7 @@ module.exports = {
     async find(filters){
 
         try {
-            let query = "SELECT * FROM person"
+            let query = "SELECT * FROM responsible"
 
             Object.keys(filters).map(key => {
                 query += ` ${key}`
