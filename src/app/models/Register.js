@@ -6,7 +6,7 @@ module.exports = {
         try {
 
             var results
-            await con.query("SELECT * FROM register", (err, rows) => {
+            await con.query("SELECT register.*, (SELECT count(*) FROM register) AS total_register FROM register", (err, rows) => {
                 if (err) throw err
 
                 callback(results = rows)
@@ -119,25 +119,34 @@ module.exports = {
 
         try {
 
-            const { filter, limit, offset } = params
+            const { priority, risk, status } = params
 
             let query = "",
                 totalQuery = "",
                 filterTotal = "WHERE 1 = 1"
 
-            if (filter) {
-                filterTotal += ` AND(register.status LIKE '%${filter}%')`
+            if(priority){
+                filterTotal += ` AND(register.priority LIKE '%${priority}%')`
+                totalQuery = `(SELECT count(*) FROM register ${filterTotal}) AS total_register`
+            }
+
+            if(risk){
+                filterTotal += ` AND (register.risk LIKE '%${risk}%')`
+                totalQuery = `(SELECT count(*) FROM register ${filterTotal}) AS total_register`
+            }
+
+            if(status){
+                filterTotal += ` AND (register.status LIKE '%${status}%')`
                 totalQuery = `(SELECT count(*) FROM register ${filterTotal}) AS total_register`
             }
 
             query = `
-                    SELECT responsible.*, register.*, person.*,
+                    SELECT register.*, person.*,
                     ${totalQuery}
                     FROM responsible
                     LEFT JOIN register ON (responsible.register_id = register.id)
                     LEFT JOIN person ON (responsible.person_id = person.id)
                     ${filterTotal}
-                    LIMIT ${limit} OFFSET ${offset}
                 `
 
             return new Promise(function (resolve, reject) {

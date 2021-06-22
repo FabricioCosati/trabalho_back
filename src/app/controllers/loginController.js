@@ -7,7 +7,6 @@ module.exports = {
 
         try {
 
-            console.log(req.body)
             const findUser = await Person.find({
                 where: {user}
             })
