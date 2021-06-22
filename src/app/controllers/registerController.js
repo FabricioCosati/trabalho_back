@@ -40,12 +40,16 @@ module.exports = {
 
     async put(req, res) {
 
-        const {status, risk, priority, isOnline, dateEnd, responsible_user, action } = req.body
+        const {status, risk, priority, isOnline, responsible_user, action } = req.body
         const { id } = req.params
 
         try {
-
             var onlineBoolean
+            var end
+
+            if(status == 0){
+                end = iso(Date.now())
+            }
 
             if (isOnline == "true") onlineBoolean = 1
             else onlineBoolean = 0
@@ -55,7 +59,7 @@ module.exports = {
                 risk,
                 priority,
                 isOnline: onlineBoolean,
-                dateEnd: dateEnd || null,
+                dateEnd: end || null,
                 action,
                 responsible_user
             })
@@ -88,7 +92,7 @@ module.exports = {
         try {
 
             const register = await Register.find({
-                where: { id }
+                where: { "register.id": id }
             })
 
             return res.send(register)
@@ -111,8 +115,6 @@ module.exports = {
             }
 
             const registers = await Register.filtering(params)
-
-            
 
             return res.send(registers)
 

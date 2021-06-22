@@ -90,7 +90,11 @@ module.exports = {
     async find(filters) {
 
         try {
-            let query = "SELECT * FROM register"
+            let query =
+            `SELECT register.*, person.id, person.name
+            FROM responsible
+            LEFT JOIN person ON (person.id = responsible.person_id)
+            LEFT JOIN register ON (register.id = responsible.register_id)`
 
             Object.keys(filters).map(key => {
                 query += ` ${key}`
@@ -100,6 +104,7 @@ module.exports = {
                 })
             })
 
+            console.log(query)
             return new Promise(function (resolve, reject) {
 
                 con.query(query, (err, rows) => {
@@ -153,6 +158,7 @@ module.exports = {
                     ${filterTotal}
                 `
 
+                console.log(query)
             return new Promise(function (resolve, reject) {
 
                 con.query(query, (err, rows) => {

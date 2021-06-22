@@ -12,7 +12,7 @@ module.exports = {
 		const day = `0${date.getDate()}`.slice(-2)
 		const month = `0${date.getMonth() + 1}`.slice(-2)
         const year = `${date.getFullYear()}`
-		const hour = `${date.getHours()}`
+		const hour = `${date.getHours()}` -1
 		const minute = `0${date.getMinutes()}`.slice(-2)
 
         const formatDate = `${day}-${month}-${year} às ${hour}:${minute}`
