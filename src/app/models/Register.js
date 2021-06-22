@@ -145,7 +145,7 @@ module.exports = {
             }
 
             query = `
-                    SELECT register.*, person.*,
+                    SELECT register.*,
                     ${totalQuery}
                     FROM responsible
                     LEFT JOIN register ON (responsible.register_id = register.id)
@@ -153,7 +153,6 @@ module.exports = {
                     ${filterTotal}
                 `
 
-                console.log(query)
             return new Promise(function (resolve, reject) {
 
                 con.query(query, (err, rows) => {

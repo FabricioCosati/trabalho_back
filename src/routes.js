@@ -21,5 +21,4 @@ routes.post('/registers', RegisterController.post)
 routes.put('/registers/:id', RegisterController.put)
 routes.delete('/registers/:id', RegisterController.delete)
 
-
 module.exports = routes

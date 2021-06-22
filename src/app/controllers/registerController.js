@@ -3,17 +3,6 @@ const Responsible = require('../models/Responsible')
 const { iso, date } = require('../lib/utils')
 
 module.exports = {
-    /* async filtering(req, res) {
-
-        Register.get(function (register) {
-            const d1 = new Date(iso(Date.now()))
-            const d2 = new Date(register[0].date)
-            const diff = d1 - d2
-            console.log(date(diff).day)
-
-            return res.send(register)
-        })
-    }, */
 
     async post(req, res) {
 
@@ -51,7 +40,7 @@ module.exports = {
 
     async put(req, res) {
 
-        const {status, risk, priority, isOnline, dateEnd, description } = req.body
+        const {status, risk, priority, isOnline, dateEnd, responsible_user, action } = req.body
         const { id } = req.params
 
         try {
@@ -67,7 +56,8 @@ module.exports = {
                 priority,
                 isOnline: onlineBoolean,
                 dateEnd: dateEnd || null,
-                description
+                action,
+                responsible_user
             })
 
             return res.send(`Registro atualizado com sucesso`)
@@ -121,6 +111,8 @@ module.exports = {
             }
 
             const registers = await Register.filtering(params)
+
+            
 
             return res.send(registers)
 
